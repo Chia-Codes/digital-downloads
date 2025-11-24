@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1
+    hooks:
+      - id: flake8
+        args:
+          - "--max-line-length=88"
+          - "--extend-ignore=E203,W503"
+          # TEMP: ignore unused-import warnings in generated files until we implement real code
+          - "--per-file-ignores=**/admin.py:F401,**/models.py:F401,**/tests.py:F401,**/pages/views.py:F401"
