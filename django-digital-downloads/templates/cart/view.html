@@ -8,7 +8,10 @@
   {% for line in lines %}
     <tr data-product-id="{{ line.id }}">
       <td><a href="{% url 'catalog:detail' line.slug %}">{{ line.title }}</a></td>
-      <td class="text-end"><input type="number" class="form-control form-control-sm js-qty" value="{{ line.qty }}" min="1"></td>
+      <td class="text-end">
+        <label for="qty-{{ line.id }}" class="visually-hidden">Quantity</label>
+        <input type="number" id="qty-{{ line.id }}" class="form-control form-control-sm js-qty" value="{{ line.qty }}" min="1" title="Quantity" placeholder="Enter quantity">
+      </td>
       <td class="text-end">£{{ line.unit_price|add:"0"|slice:":-2" }}.{{ line.unit_price|stringformat:"02d"|slice:"-2:" }}</td>
       <td class="text-end">£{{ line.line_total|add:"0"|slice:":-2" }}.{{ line.line_total|stringformat:"02d"|slice:"-2:" }}</td>
       <td class="text-end"><button class="btn btn-sm btn-outline-danger js-remove">Remove</button></td>
