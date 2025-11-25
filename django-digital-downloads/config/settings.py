@@ -29,12 +29,10 @@ SECRET_KEY = "zb63qI1Vn0Vf4o3yZrA3TQ7rHcQ3l8l3_0wW7y5w6nYF2s7o9QxJm2Tt6KpB4cVf"
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    h.strip()
-    for h in os.getenv(
-        "ALLOWED_HOSTS",
-        "127.0.0.1,localhost,digital-downloads.herokuapp.com",
-    ).split(",")
-    if h.strip()
+    "ALLOWED_HOSTS",
+    "127.0.0.1",
+    "localhost",
+    ".herokuapp.com",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
