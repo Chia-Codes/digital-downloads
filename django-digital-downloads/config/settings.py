@@ -28,11 +28,20 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-not-secret")
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = [
-    [h.strip() for h in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")]
+    h.strip()
+    for h in os.getenv(
+        "ALLOWED_HOSTS",
+        "127.0.0.1,localhost,digital-downloads-rory.herokuapp.com",
+    ).split(",")
+    if h.strip()
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    [o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()]
+    o.strip()
+    for o in os.getenv(
+        "CSRF_TRUSTED_ORIGINS", "https://digital-downloads.herokuapp.com"
+    ).split(",")
+    if o.strip()
 ]
 
 # Application definition
