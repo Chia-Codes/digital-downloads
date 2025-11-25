@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Payment cancelled · {{ block.super }}{% endblock %}
+{% block content %}
+<div class="alert alert-warning" role="alert">
+  Payment was cancelled. You can return to your cart and try again.
+</div>
+<a class="btn btn-outline-secondary" href="{% url 'cart:view' %}">Back to cart</a>
+{% endblock %}

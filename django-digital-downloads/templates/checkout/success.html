@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Payment successful · {{ block.super }}{% endblock %}
+{% block content %}
+<div class="alert alert-success" role="alert">
+  <h4 class="alert-heading">Thanks!</h4>
+  <p>Your payment completed. Your downloads are now available in <a href="{% url 'orders:history' %}">Orders</a> or <a href="{% url 'downloads:list' %}">My Purchases</a>.</p>
+</div>
+<a class="btn btn-primary" href="{% url 'downloads:list' %}">Go to My Purchases</a>
+{% endblock %}
