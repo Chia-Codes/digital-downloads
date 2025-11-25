@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }} · {{ block.super }}{% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-12 col-lg-8">
+    <h1 class="h3">{{ product.title }}</h1>
+    <p class="text-muted">{{ product.description }}</p>
+  </div>
+  <div class="col-12 col-lg-4">
+    <div class="border rounded p-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <strong>Price</strong>
+        <span>£{{ product.price_pennies|add:"0"|slice:":-2" }}.{{ product.price_pennies|stringformat:"02d"|slice:"-2:" }}</span>
+      </div>
+      <hr>
+      <div class="input-group">
+        <input type="number" id="qty" class="form-control" value="1" min="1" aria-label="Quantity">
+        <button
+          id="btnAddToCart"
+          class="btn btn-primary"
+          data-product-id="{{ product.id }}"
+          data-product-title="{{ product.title }}"
+        >
+          Add to cart
+        </button>
+      </div>
+      <small class="text-muted d-block mt-2">Cart updates happen instantly.</small>
+    </div>
+  </div>
+</div>
+{% endblock %}
