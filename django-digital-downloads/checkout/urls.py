@@ -1,9 +1,6 @@
 from django.urls import path
 
-from .views import checkout_placeholder
+from .views import start
 
 app_name = "checkout"
-
-urlpatterns = [
-    path("", checkout_placeholder, name="start"),
-]
+urlpatterns = [path("", start, name="start")]
