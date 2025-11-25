@@ -25,13 +25,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-not-secret")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "True").lower() == "true"
+DEBUG = False
 
 ALLOWED_HOSTS = [
     h.strip()
     for h in os.getenv(
         "ALLOWED_HOSTS",
-        "127.0.0.1,localhost,digital-downloads-rory.herokuapp.com",
+        "127.0.0.1,localhost,digital-downloads.herokuapp.com",
     ).split(",")
     if h.strip()
 ]
@@ -39,7 +39,8 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = [
     o.strip()
     for o in os.getenv(
-        "CSRF_TRUSTED_ORIGINS", "https://digital-downloads.herokuapp.com"
+        "CSRF_TRUSTED_ORIGINS",
+        "https://digital-downloads.herokuapp.com",
     ).split(",")
     if o.strip()
 ]
@@ -82,6 +83,7 @@ if not DEBUG:
     }
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
 
 ROOT_URLCONF = "config.urls"
