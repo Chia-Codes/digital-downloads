@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Catalog · {{ block.super }}{% endblock %}
+{% block content %}
+
+<h1 class="h3 mb-3">Catalog</h1>
+<div class="row g-3">
+  {% for p in products %}
+  <div class="col-12 col-md-6 col-lg-4">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column">
+        <h2 class="h5 mb-2"><a href="{% url 'catalog:detail' p.slug %}">{{ p.title }}</a></h2>
+        <p class="flex-grow-1 small text-muted">{{ p.description|truncatewords:20 }}</p>
+        <div class="mt-2">
+          <span class="fw-semibold">£{{ p.price_pennies|floatformat:-2|divisibleby:100 }}</span>
+          <!-- fallback simple price: -->
+          <span class="fw-semibold">£{{ p.price_pennies|add:"0"|slice:":-2" }}.{{ p.price_pennies|stringformat:"02d"|slice:"-2:" }}</span>
+          <a class="btn btn-sm btn-primary ms-2" href="{% url 'catalog:detail' p.slug %}">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No products yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
