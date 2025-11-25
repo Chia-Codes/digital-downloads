@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+{% block content %}
+  <h1 class="h3 mb-3">Welcome, {{ request.user.username }}!</h1>
+  <p class="mb-0">From here you can view your <a href="{% url 'orders:downloads' %}">purchases</a> or your <a href="{% url 'orders:history' %}">orders</a>.</p>
+{% endblock %}
