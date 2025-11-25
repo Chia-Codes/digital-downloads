@@ -30,7 +30,7 @@ SECRET_KEY = "zb63qI1Vn0Vf4o3yZrA3TQ7rHcQ3l8l3_0wW7y5w6nYF2s7o9QxJm2Tt6KpB4cVf"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 
 ALLOWED_HOSTS = [
     "ALLOWED_HOSTS",
@@ -117,10 +117,17 @@ DATABASES = {
     "default": dj_database_url.config(
         default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
         conn_max_age=600,
-        ssl_require=not DEBUG,
+        # DO NOT set ssl_require here — it breaks SQLite
     )
 }
 
+# Add sslmode ONLY when using Postgres, and ONLY in production
+engine = str(DATABASES.get("default", {}).get("ENGINE", ""))
+if engine.endswith("postgresql") and not DEBUG:
+    default_db = DATABASES["default"]
+    current_opts = dict(default_db.get("OPTIONS", {}))
+    current_opts["sslmode"] = "require"
+    default_db["OPTIONS"] = current_opts
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
