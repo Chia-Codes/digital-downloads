@@ -1,0 +1,42 @@
+# --- Python / Django ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+*.log
+
+# Local env & secrets
+.env
+.env.*        # e.g. .env.local, .env.dev
+
+# Virtualenvs
+.venv/
+venv/
+env/
+
+# Django collectstatic output
+staticfiles/
+
+# SQLite dev DB (we use Postgres/Neon in prod)
+db.sqlite3
+db.sqlite3-journal
+
+# Coverage / testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# IDE / OS cruft
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Pre-commit / tooling caches
+.mypy_cache/
+ruff_cache/
+.cache/
