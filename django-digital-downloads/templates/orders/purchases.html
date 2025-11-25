@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}My Purchases{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">My Purchases</h1>
+{% if assets %}
+  <div class="list-group">
+    {% for ua in assets %}
+      <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fw-semibold">{{ ua.product.title }}</div>
+          <div class="small text-muted">Granted: {{ ua.granted_at|date:"Y-m-d H:i" }}</div>
+        </div>
+        <a class="btn btn-outline-primary" href="{% url 'orders:download' ua.id %}">Download</a>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No purchases yet.</div>
+{% endif %}
+{% endblock %}
