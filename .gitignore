@@ -24,6 +24,11 @@ staticfiles/
 db.sqlite3
 db.sqlite3-journal
 
+# ignore protected files *except* our small demo set
+protected_media/*
+!protected_media/.gitignore
+!protected_media/samples/**
+
 # Coverage / testing
 .coverage
 htmlcov/
