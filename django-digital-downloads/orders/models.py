@@ -4,8 +4,27 @@ from catalog.models import DigitalAsset, Product
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
+
+
+# USER NOTES
+class UserNote(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    title = models.CharField(max_length=120)
+    body = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-updated_at"]
+        indexes = [models.Index(fields=["user", "product"])]
+
+    def __str__(self) -> str:
+        return f"{self.user} · {self.product} · {self.title}"
 
 
 # ORDERS
