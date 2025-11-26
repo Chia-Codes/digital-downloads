@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Notes{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">My Notes</h1>
+<p class="text-muted">You can only add notes for products you own.</p>
+{% if notes %}
+  <div class="list-group">
+    {% for n in notes %}
+      <div class="list-group-item">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fw-semibold">{{ n.title }}</div>
+            <div class="small text-muted">On: {{ n.product.title }} · Updated {{ n.updated_at|date:"Y-m-d H:i" }}</div>
+          </div>
+          <div class="btn-group">
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'orders:note_edit' n.id %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'orders:note_delete' n.id %}">Delete</a>
+          </div>
+        </div>
+        <p class="mb-0 mt-2">{{ n.body|linebreaksbr }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No notes yet.</div>
+{% endif %}
