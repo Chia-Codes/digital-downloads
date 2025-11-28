@@ -3,8 +3,8 @@ from typing import Tuple
 
 from catalog.models import Product
 from django.http import JsonResponse
-from django.shortcuts import render
-from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods, require_POST
 
 from .utils import get_cart, save_cart
 
@@ -47,24 +47,30 @@ def _cart_totals(cart) -> Tuple[int, int]:
     return items, subtotal
 
 
-@require_POST
-def add_to_cart(request):
-    payload = json.loads(request.body or "{}")
-    product_id = str(payload.get("product_id"))
-    qty = int(payload.get("qty", 1))
-    if qty < 1:
-        qty = 1
+@require_http_methods(["GET", "POST"])
+def add_to_cart(request, product_id: int):
+    if request.method == "POST" and request.headers.get("content-type", "").startswith(
+        "application/json"
+    ):
+        payload = json.loads(request.body or "{}")
+        qty = int(payload.get("qty", 1))
+    else:
+        qty = int(request.GET.get("qty") or request.POST.get("qty") or 1)
 
-    try:
-        Product.objects.only("id").get(id=product_id, active=True)
-    except Product.DoesNotExist:
-        return JsonResponse({"ok": False, "error": "Invalid product"}, status=400)
+    # ensure product exists/active
+    product = get_object_or_404(Product.objects.only("id"), id=product_id, active=True)
 
     cart = get_cart(request)
-    cart[product_id] = cart.get(product_id, 0) + qty
+    key = str(product.id)
+    cart[key] = int(cart.get(key, 0)) + (qty if qty > 0 else 1)
     save_cart(request, cart)
-    items, subtotal = _cart_totals(cart)
-    return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+    # AJAX -> JSON; normal link/form -> redirect to cart
+    if request.method == "POST" and request.headers.get("content-type", "").startswith(
+        "application/json"
+    ):
+        items, subtotal = _cart_totals(cart)
+        return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+    return redirect("cart:view")
 
 
 @require_POST
