@@ -27,8 +27,8 @@ db.sqlite3-journal
 # ignore protected files *except* our small demo set
 protected_media/*
 !protected_media/.gitignore
-!protected_media/samples/**
 !protected_media/products/**
+!protected_media/samples/**
 
 # Coverage / testing
 .coverage
@@ -46,3 +46,8 @@ desktop.ini
 .mypy_cache/
 ruff_cache/
 .cache/
+
+# allow protected_media content inside the app folder for demo
+!django-digital-downloads/protected_media/.gitignore
+!django-digital-downloads/protected_media/products/**
+!django-digital-downloads/protected_media/samples/**
