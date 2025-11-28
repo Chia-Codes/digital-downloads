@@ -28,6 +28,7 @@ db.sqlite3-journal
 protected_media/*
 !protected_media/.gitignore
 !protected_media/samples/**
+!protected_media/products/**
 
 # Coverage / testing
 .coverage
