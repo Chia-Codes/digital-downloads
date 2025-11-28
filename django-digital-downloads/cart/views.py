@@ -93,13 +93,29 @@ def update_quantity(request):
     return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
 
 
-@require_POST
-def remove_from_cart(request):
-    payload = json.loads(request.body or "{}")
-    product_id = str(payload.get("product_id"))
+@require_http_methods(["GET", "POST"])
+def remove_from_cart(request, product_id=None):
+    if request.method == "POST" and request.headers.get("content-type", "").startswith(
+        "application/json"
+    ):
+        payload = json.loads(request.body or "{}")
+        key = str(payload.get("product_id", "")).strip()
+    else:
+        # GET path param wins if present
+        key = str(product_id or "").strip()
+
+    if not key:
+        return JsonResponse({"ok": False, "error": "Missing product_id"}, status=400)
 
     cart = get_cart(request)
-    cart.pop(product_id, None)
+    cart.pop(key, None)
     save_cart(request, cart)
-    items, subtotal = _cart_totals(cart)
-    return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+
+    # If AJAX/JSON, return totals; otherwise redirect back to cart
+    if request.method == "POST" and request.headers.get("content-type", "").startswith(
+        "application/json"
+    ):
+        items, subtotal = _cart_totals(cart)
+        return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+
+    return redirect("cart:view")

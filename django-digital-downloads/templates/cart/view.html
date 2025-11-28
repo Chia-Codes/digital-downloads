@@ -14,7 +14,10 @@
       </td>
       <td class="text-end">£{{ line.unit_price|add:"0"|slice:":-2" }}.{{ line.unit_price|stringformat:"02d"|slice:"-2:" }}</td>
       <td class="text-end">£{{ line.line_total|add:"0"|slice:":-2" }}.{{ line.line_total|stringformat:"02d"|slice:"-2:" }}</td>
-      <td class="text-end"><button class="btn btn-sm btn-outline-danger js-remove">Remove</button></td>
+      <td class="text-end"><a class="btn btn-outline-danger btn-sm"
+         href="{% url 'cart:remove' line.id %}">
+        Remove
+      </a></td>
     </tr>
   {% empty %}
     <tr><td colspan="5" class="text-center text-muted">Your cart is empty.</td></tr>
