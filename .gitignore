@@ -27,7 +27,6 @@ db.sqlite3-journal
 # ignore protected files *except* our small demo set
 protected_media/*
 !protected_media/.gitignore
-!protected_media/products/**
 !protected_media/samples/**
 
 # Coverage / testing
