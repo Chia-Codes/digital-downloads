@@ -521,3 +521,4 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
 
+
