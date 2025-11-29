@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Cart · {{ block.super }}{% endblock %}
 {% block content %}
+{% load currency %}
 <h1 class="h3 mb-3">Your Cart</h1>
 <table class="table">
   <thead><tr><th>Product</th><th class="text-end">Qty</th><th class="text-end">Unit</th><th class="text-end">Line</th><th></th></tr></thead>
@@ -12,8 +13,8 @@
         <label for="qty-{{ line.id }}" class="visually-hidden">Quantity</label>
         <input type="number" id="qty-{{ line.id }}" class="form-control form-control-sm js-qty" value="{{ line.qty }}" min="1" title="Quantity" placeholder="Enter quantity">
       </td>
-      <td class="text-end">£{{ line.unit_price|add:"0"|slice:":-2" }}.{{ line.unit_price|stringformat:"02d"|slice:"-2:" }}</td>
-      <td class="text-end">£{{ line.line_total|add:"0"|slice:":-2" }}.{{ line.line_total|stringformat:"02d"|slice:"-2:" }}</td>
+      <td class="text-end">£{{ line.unit_price|money }}</td>
+      <td class="text-end">£{{ line.line_total|money }}</td>
       <td class="text-end"><a class="btn btn-outline-danger btn-sm"
          href="{% url 'cart:remove' line.id %}">
         Remove
@@ -30,7 +31,7 @@
       <div class="fw-semibold">Items: {{ items }}</div>
       <div class="text-muted">
         Subtotal:
-        £{{ subtotal|add:"0"|slice:":-2" }}.{{ subtotal|stringformat:"02d"|slice:"-2:" }}
+        £{{ subtotal|money }}
       </div>
     </div>
 

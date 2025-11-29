@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Catalog · {{ block.super }}{% endblock %}
 {% block content %}
+{% load currency %}
 <h1 class="h3 mb-3">Catalog</h1>
 <ul class="list-group">
   {% for p in products %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="{% url 'catalog:detail' p.slug %}">{{ p.title }}</a>
-      <span>£{{ p.price_pennies|add:"0"|slice:":-2" }}.{{ p.price_pennies|stringformat:"02d"|slice:"-2:" }}</span>
+      <span>£{{ p.price_pennies|money }}</span>
     </li>
   {% empty %}
     <li class="list-group-item text-muted">No products yet.</li>

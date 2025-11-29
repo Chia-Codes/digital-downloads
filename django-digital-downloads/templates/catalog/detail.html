@@ -1,10 +1,14 @@
-{% extends "base.html" %} {% block title %}{{ product.title }} · {{ block.super
-}}{% endblock %} {% block content %}
+{% extends "base.html" %}
+{% block title %}
+{{ product.title }} · {{ block.super}
+}{% endblock %}
+{% block content %}
+{% load currency %}
+<span>£{{ p.price_pennies|money }}</span>
 <h1 class="h3">{{ product.title }}</h1>
 <p class="text-muted">{{ product.description }}</p>
 <p>
-  <strong>Price:</strong> £{{ product.price_pennies|add:"0"|slice:":-2" }}.{{
-  product.price_pennies|stringformat:"02d"|slice:"-2:" }}
+  <strong>Price:</strong> £{{ product.price_pennies|money }}
 </p>
 <div class="input-group" style="max-width: 220px">
   <input
