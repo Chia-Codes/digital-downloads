@@ -95,13 +95,12 @@ def update_quantity(request):
 
 @require_http_methods(["GET", "POST"])
 def remove_from_cart(request, product_id=None):
-    if request.method == "POST" and request.headers.get("content-type", "").startswith(
-        "application/json"
-    ):
+    # Decide where the id comes from: JSON body or URL param
+    ctype = (request.headers.get("content-type") or "").lower()
+    if request.method == "POST" and ctype.startswith("application/json"):
         payload = json.loads(request.body or "{}")
         key = str(payload.get("product_id", "")).strip()
     else:
-        # GET path param wins if present
         key = str(product_id or "").strip()
 
     if not key:
@@ -111,8 +110,8 @@ def remove_from_cart(request, product_id=None):
     cart.pop(key, None)
     save_cart(request, cart)
 
-    # If AJAX/JSON, return totals; otherwise redirect back to cart
-    if request.method == "POST" and request.headers.get("content-type", "").startswith(
+    # If this was an AJAX/JSON call return totals; otherwise redirect to cart
+    if request.headers.get("x-requested-with") == "XMLHttpRequest" or ctype.startswith(
         "application/json"
     ):
         items, subtotal = _cart_totals(cart)

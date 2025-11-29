@@ -178,6 +178,9 @@ STRIPE_CURRENCY = os.getenv("STRIPE_CURRENCY", "GBP")
 SITE_BASE_URL = os.getenv("SITE_BASE_URL", "http://127.0.0.1:8000")
 
 LOGOUT_REDIRECT_URL = "core:home"
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
