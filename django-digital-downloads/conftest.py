@@ -34,5 +34,7 @@ def digital_asset(db, product):
 @pytest.fixture
 def owned_asset(db, user, product, digital_asset):
     return UserAsset.objects.create(
-        user=user, product=product, digital_asset=digital_asset
+        user=user,
+        product=product,
+        digital_asset=digital_asset,
     )
