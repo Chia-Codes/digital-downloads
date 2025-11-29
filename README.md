@@ -321,6 +321,8 @@ See `requirements.txt` (Django 5, stripe>=6, dj-database-url, python-dotenv, gun
 
 ## Testing
 
+For a full manual/automated test plan with accessibility, responsiveness, Lighthouse, and known issues, see **[TESTING.md](TESTING.md)**.
+
 Test cases and results can be found in the dedicated tests under each app (e.g., `checkout/tests/test_webhook.py`, `cart/tests/test_utils.py`).
 
 # Pytest
@@ -504,8 +506,7 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 * [Bootstrap 5](https://getbootstrap.com/) — Layout, grid, components, responsive utilities.
 * [WhiteNoise](https://whitenoise.evans.io/en/stable/) — Static files in production (hashed manifests).
 * [Gunicorn](https://gunicorn.org/) — WSGI server.
-* [Pixabay](https://pixabay.com/) — Royalty‑free images and audio (credited in captions).
-* [Google Fonts](https://fonts.google.com/) — Typography.
+* [Pixabay](https://pixabay.com/) — Royalty‑free images and audio (credited in captions). 
 * [psycopg / Postgres](https://www.psycopg.org/) — Production DB driver.
 * [pytest / pytest‑django](https://docs.pytest.org/) — Test runner.
 * [Black / isort / flake8](https://github.com/psf/black) — Code quality.
@@ -519,3 +520,4 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
+
