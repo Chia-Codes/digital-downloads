@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
   <div class="p-4 border rounded-3">
     <h1 class="h3">Welcome to Digital Downloads</h1>
     <p>Browse the catalog and get instant access after checkout.</p>
   </div>
+  <img
+  src="{% static 'img/hero.jpg' %}"
+  alt="Digital downloads preview"
+  class="img-fluid rounded shadow-sm mt-4"
+  width="1600" height="900"
+  loading="lazy"
+  />
 {% endblock %}
