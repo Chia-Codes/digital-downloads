@@ -49,7 +49,9 @@ The live link can be found here: [View the live project here](https://digital-do
 * [Testing](#testing)
 * [Deployment](#deployment)
 
-  * [Versio## Project Structure
+  * [Version]
+
+## Project Structure
 
 ```
 repo-root/
@@ -109,7 +111,7 @@ Secondary goals for the site owner:
 
 This project was built iteratively over small commits, back-end to front-end, focusing first on a working cart/checkout flow, then on polish and docs.
 
-A Kanban board was created using GitHub Projects and can be located here: [Kanban Board Link](https://github.com/users/Chia-Codes/projects) 
+A Kanban board was created using GitHub Projects and can be located here: [Kanban Board Link](https://github.com/users/Chia-Codes/projects)
 
 ![Kanban image](docs/readme_images/kanban.png)----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -321,7 +323,7 @@ See `requirements.txt` (Django 5, stripe>=6, dj-database-url, python-dotenv, gun
 
 ## Testing
 
-For a full manual/automated test plan with accessibility, responsiveness, Lighthouse, and known issues, see **[TESTING.md](TESTING.md)**.
+For a full manual/automated test plan with accessibility, responsiveness, Lighthouse, and known issues, see [TESTING.md](TESTING.md)
 
 Test cases and results can be found in the dedicated tests under each app (e.g., `checkout/tests/test_webhook.py`, `cart/tests/test_utils.py`).
 
@@ -506,7 +508,7 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 * [Bootstrap 5](https://getbootstrap.com/) — Layout, grid, components, responsive utilities.
 * [WhiteNoise](https://whitenoise.evans.io/en/stable/) — Static files in production (hashed manifests).
 * [Gunicorn](https://gunicorn.org/) — WSGI server.
-* [Pixabay](https://pixabay.com/) — Royalty‑free images and audio (credited in captions). 
+* [Pixabay](https://pixabay.com/) — Royalty‑free images and audio (credited in captions).
 * [psycopg / Postgres](https://www.psycopg.org/) — Production DB driver.
 * [pytest / pytest‑django](https://docs.pytest.org/) — Test runner.
 * [Black / isort / flake8](https://github.com/psf/black) — Code quality.
@@ -520,4 +522,3 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
-
