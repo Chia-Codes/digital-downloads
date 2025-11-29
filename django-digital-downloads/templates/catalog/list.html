@@ -8,7 +8,7 @@
   {% for p in products %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="{% url 'catalog:detail' p.slug %}">{{ p.title }}</a>
-      <span>£{{ p.price_pennies|money }}</span>
+      <span>£{{ p.price_pennies|pennies }}</span>
     </li>
   {% empty %}
     <li class="list-group-item text-muted">No products yet.</li>
