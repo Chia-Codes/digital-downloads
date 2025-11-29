@@ -3,14 +3,17 @@ from django import template
 register = template.Library()
 
 
-@register.filter(name="money")
-def money(value):
+@register.filter
+def pennies(value):
     """
-    Format integer pennies (e.g. 299) as '2.99'.
-    Safe fallback to 0.00 on bad input.
+    Render integer pennies as 'X.YY' (string).
+    Examples:
+      299  -> '2.99'
+       50  -> '0.50'
+        0  -> '0.00'
     """
     try:
-        pennies = int(value)
-        return f"{pennies / 100:.2f}"
-    except Exception:
+        p = int(value)
+    except (TypeError, ValueError):
         return "0.00"
+    return f"{p // 100}.{p % 100:02d}"
