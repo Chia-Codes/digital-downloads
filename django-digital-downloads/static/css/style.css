@@ -1,0 +1,55 @@
+:root{
+  --dd-text: #1f2937;          /* neutral-800 */
+  --dd-muted: #6b7280;         /* neutral-500 */
+  --dd-brand: #0d6efd;         /* Bootstrap primary */
+  --dd-border: #e5e7eb;        /* neutral-200 */
+}
+
+/* Base font */
+html, body {
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--dd-text);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: .15px;
+  line-height: 1.2;
+  margin-bottom: .5rem;
+}
+
+/* Body text & small print */
+p, li { line-height: 1.65; }
+.small, small { color: var(--dd-muted); }
+
+/* Links: hover*/
+a {
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Buttons */
+.btn { font-weight: 600; }
+
+/* Cards & tables */
+.card, .table, .list-group-item {
+  border-color: var(--dd-border) !important;
+}
+
+/* Navbar*/
+.navbar-brand { font-weight: 700; }
+
+/* Ring for inputs/buttons */
+.btn:focus, .form-control:focus, .form-select:focus {
+  box-shadow: 0 0 0 .2rem rgba(13,110,253,.15);
+}
+
+/* User dark mode */
+@media (prefers-color-scheme: dark) {
+  body { color: #e5e7eb; background:#0b0f16; }
+  .card, .table, .list-group-item { border-color: #1f2937 !important; }
+}
