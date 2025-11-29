@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Order Detail{% endblock %}
 {% block content %}
+{% load currency math_extras %}
 <h1 class="h3 mb-3">Order {{ order.id }}</h1>
 
 <ul class="list-unstyled mb-3">
   <li><strong>Date:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</li>
   <li><strong>Status:</strong> {{ order.status|title }}</li>
-  <li><strong>Total:</strong> {{ order.currency }} {{ order.total_pennies|floatformat:-2 }}</li>
+  <li><strong>Total:</strong> £{{ order.total_pennies|money }}</li>
 </ul>
 
 <table class="table">
@@ -23,10 +24,8 @@
     <tr>
       <td>{{ item.product.title }}</td>
       <td class="text-end">{{ item.quantity }}</td>
-      <td class="text-end">{{ order.currency }} {{ item.unit_price_pennies|floatformat:-2 }}</td>
-      <td class="text-end">
-        {{ order.currency }} {{ item.unit_price_pennies|mul:item.quantity|floatformat:-2 }}
-      </td>
+      <td class="text-end">£{{ item.unit_price_pennies|money }}</td>
++     <td class="text-end">£{{ item.unit_price_pennies|mul:item.quantity|money }}</td>
     </tr>
     {% endfor %}
   </tbody>
