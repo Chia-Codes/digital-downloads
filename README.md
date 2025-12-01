@@ -8,7 +8,7 @@ The live link can be found here: [View the live project here](https://digital-do
 
 ---
 
-![Mock Up](docs/readme_images/mockup.png)-----------------------------------------------------------------------------------------------------------------------------------
+![Mock Up](docs/readme_images/mockup.png)
 
 ## Table of Contents
 
@@ -113,7 +113,7 @@ This project was built iteratively over small commits, back-end to front-end, fo
 
 A Kanban board was created using GitHub Projects and can be located here: [Kanban Board Link](https://github.com/users/Chia-Codes/projects)
 
-![Kanban image](docs/readme_images/kanban.png)----------------------------------------------------------------------------------------------------------------------------------------
+![Kanban image](docs/readme_images/kanban.png)
 
 #### Epics
 
@@ -527,3 +527,4 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 
 
 >>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
+
