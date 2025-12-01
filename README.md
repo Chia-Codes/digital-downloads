@@ -194,7 +194,7 @@ README, testing instructions, fixtures, and smoke tests for key flows.
 
 Users browse products with title and price. Detail pages include an **Add to cart** action.
 
-![Catalog](docs/readme_images/catalog.png)-------------------------------------------------------------------------------------------------------------
+![Catalog](docs/readme_images/catalog.png)
 
 `USER STORY – As a user, I want to update/remove items in the cart and see totals`
 
@@ -202,7 +202,7 @@ Users browse products with title and price. Detail pages include an **Add to car
 
 The cart shows each line’s qty, unit price, and calculated subtotal. Users can update qty or remove items.
 
-![Cart](docs/readme_images/cart.png)----------------------------------------------------------------------------------------------------------------------------------
+![Cart](docs/readme_images/cart.png)
 
 `USER STORY – As a user, I want to pay securely and receive my downloads`
 
@@ -210,7 +210,7 @@ The cart shows each line’s qty, unit price, and calculated subtotal. Users can
 
 On **Checkout**, a Stripe Checkout Session is created server‑side. After successful payment, the Stripe webhook marks the `Order` as `paid` and grants `UserAsset` permissions so the user can access **My Purchases**.
 
-![Checkout](docs/readme_images/checkout.png)-------------------------------------------------------------------------------------------------------------
+![Checkout](docs/readme_images/checkout.png)
 
 `USER STORY – As a user, I want to see and download files I own`
 
@@ -218,7 +218,7 @@ On **Checkout**, a Stripe Checkout Session is created server‑side. After succe
 
 A protected page lists the purchased assets. Download links stream the file only for the owning user.
 
-![Purchases](docs/readme_images/purchases.png)-------------------------------------------------------------------------------------------------------------
+![Purchases](docs/readme_images/purchases.png)
 
 ### Features-Left-To-Implement
 
@@ -527,4 +527,5 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 
 
 >>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
+
 
