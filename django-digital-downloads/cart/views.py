@@ -4,7 +4,7 @@ from typing import Tuple
 from catalog.models import Product
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_http_methods, require_POST
+from django.views.decorators.http import require_http_methods
 
 from .utils import get_cart, save_cart
 
@@ -73,29 +73,46 @@ def add_to_cart(request, product_id: int):
     return redirect("cart:view")
 
 
-@require_POST
-def update_quantity(request):
-    payload = json.loads(request.body or "{}")
-    product_id = str(payload.get("product_id"))
-    qty = int(payload.get("qty", 1))
+@require_http_methods(["GET", "POST"])
+def update_quantity(request, product_id: int):
+    ctype = (request.headers.get("content-type") or "").lower()
+    if request.method == "POST" and ctype.startswith("application/json"):
+        payload = json.loads(request.body or "{}")
+        qty = int(payload.get("qty", 1))
+        key = str(payload.get("product_id", product_id))
+    else:
+        # handle regular form
+        qty = int((request.POST.get("qty") or request.GET.get("qty") or 1))
+        key = str(product_id)
 
     cart = get_cart(request)
-    if product_id not in cart:
-        return JsonResponse({"ok": False, "error": "Not in cart"}, status=400)
+    if key not in cart:
+        if request.method == "POST" and ctype.startswith("application/json"):
+            return JsonResponse({"ok": False, "error": "Not in cart"}, status=400)
+        return redirect("cart:view")
 
     if qty <= 0:
-        cart.pop(product_id, None)
+        cart.pop(key, None)
     else:
-        cart[product_id] = qty
-
+        cart[key] = qty
     save_cart(request, cart)
-    items, subtotal = _cart_totals(cart)
-    return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+
+    if request.method == "POST" and (
+        request.headers.get("x-requested-with") == "XMLHttpRequest"
+        or ctype.startswith("application/json")
+    ):
+        items, subtotal = _cart_totals(cart)
+        return JsonResponse({"ok": True, "items": items, "subtotal_pennies": subtotal})
+    return redirect("cart:view")
 
 
 @require_http_methods(["GET", "POST"])
 def remove_from_cart(request, product_id=None):
-    # Decide where the id comes from: JSON body or URL param
+    """
+    Works for:
+      - GET /cart/remove/<product_id>/  (normal link)
+      - POST JSON {"product_id": "..."} (AJAX)
+    """
     ctype = (request.headers.get("content-type") or "").lower()
     if request.method == "POST" and ctype.startswith("application/json"):
         payload = json.loads(request.body or "{}")
@@ -110,7 +127,7 @@ def remove_from_cart(request, product_id=None):
     cart.pop(key, None)
     save_cart(request, cart)
 
-    # If this was an AJAX/JSON call return totals; otherwise redirect to cart
+    # JSON/AJAX → return totals; otherwise redirect back to cart
     if request.headers.get("x-requested-with") == "XMLHttpRequest" or ctype.startswith(
         "application/json"
     ):

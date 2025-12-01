@@ -1,20 +1,31 @@
 {% extends "base.html" %}
+{% load currency %}
 {% block title %}Cart · {{ block.super }}{% endblock %}
 {% block content %}
-{% load currency %}
 <h1 class="h3 mb-3">Your Cart</h1>
 <table class="table">
-  <thead><tr><th>Product</th><th class="text-end">Qty</th><th class="text-end">Unit</th><th class="text-end">Line</th><th></th></tr></thead>
+  <thead><tr><th>Product</th><th class="text-end">Qty</th><th class="text-end">Unit</th><th class="text-end">Total</th><th></th></tr></thead>
   <tbody>
   {% for line in lines %}
-    <tr data-product-id="{{ line.id }}">
+    <tr data-product-id="{{ line.id }}" data-update-url="{% url 'cart:update' line.id %}">
       <td><a href="{% url 'catalog:detail' line.slug %}">{{ line.title }}</a></td>
       <td class="text-end">
-        <label for="qty-{{ line.id }}" class="visually-hidden">Quantity</label>
-        <input type="number" id="qty-{{ line.id }}" class="form-control form-control-sm js-qty" value="{{ line.qty }}" min="1" title="Quantity" placeholder="Enter quantity">
+        <form method="post" action="{% url 'cart:update' line.id %}">
+        {% csrf_token %}
+          <label for="qty-{{ line.id }}" class="visually-hidden">Quantity</label>
+          <input
+            id="qty-{{ line.id }}"
+            name="qty"
+            type="number"
+            class="form-control form-control-sm"
+            value="{{ line.qty }}"
+            min="1"
+            oninput="this.form.requestSubmit()"
+          />
+        </form>
       </td>
-      <td class="text-end">£{{ line.unit_price|money }}</td>
-      <td class="text-end">£{{ line.line_total|money }}</td>
+      <td class="text-end">£{{ line.unit_price|pennies }}</td>
+      <td class="text-end">£{{ line.line_total|pennies }}</td>
       <td class="text-end"><a class="btn btn-outline-danger btn-sm"
          href="{% url 'cart:remove' line.id %}">
         Remove
@@ -29,18 +40,20 @@
   <div class="card-body d-flex justify-content-between align-items-center">
     <div>
       <div class="fw-semibold">Items: {{ items }}</div>
-      <div class="text-muted">
-        Subtotal:
-        £{{ subtotal|money }}
-      </div>
+      <div class="text-muted">Subtotal: £{{ subtotal|pennies }}</div>
     </div>
 
-    <form method="post" action="{% url 'checkout:start' %}">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary" {% if not items %}disabled{% endif %}>
-    Checkout
-  </button>
-</form>
+    {% if items %}
+      {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'checkout:start' %}">Checkout</a>
+      {% else %}
+        <a class="btn btn-primary" href="{% url 'login' %}?next={% url 'checkout:start' %}">Login to checkout</a>
+      {% endif %}
+    {% else %}
+
+    {% endif %}
+  </div>
+</div>
 
 <script>
   // CSRF helper (Django docs)
@@ -58,7 +71,8 @@
       const pid = tr?.dataset.productId;
       const qty = Math.max(1, parseInt(inp.value || '1', 10));
 
-      fetch("{% url 'cart:update' %}", {
+      const url = tr?.dataset.updateUrl;
+     fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -4,13 +4,13 @@
 }{% endblock %}
 {% block content %}
 {% load currency %}
-<span>£{{ p.price_pennies|money }}</span>
+<span>£{{ p.price_pennies|pennies }}</span>
 <h1 class="h3">{{ product.title }}</h1>
 <p class="text-muted">{{ product.description }}</p>
 <p>
-  <strong>Price:</strong> £{{ product.price_pennies|money }}
+  <strong>Price:</strong> £{{ product.price_pennies|pennies }}
 </p>
-<div class="input-group" style="max-width: 220px">
+<div class="input-group">
   <input
     id="qty"
     type="number"
