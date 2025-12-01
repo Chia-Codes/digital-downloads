@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect x="0" y="0" width="1200" height="800" fill="#fafafa"/>
+  <!-- Header -->
+  <rect x="20" y="20" width="1160" height="70" fill="#f0f0f0" stroke="#333" stroke-width="3"/>
+  <text x="40" y="65" font-family="monospace" font-size="36" fill="#222">DD · Digital Downloads</text>
+  <text x="700" y="65" font-family="monospace" font-size="22" fill="#222">Home | Catalog | Cart | Orders | Login</text>
+
+  <!-- Hero -->
+  <rect x="60" y="120" width="1080" height="240" fill="#e3e3e3" stroke="#333" stroke-width="3"/>
+  <text x="80" y="170" font-family="monospace" font-size="32" fill="#222">HERO image (audio theme)</text>
+  <text x="80" y="210" font-family="monospace" font-size="22" fill="#222">Headline: Buy Royalty-free Tracks</text>
+
+  <!-- CTAs -->
+  <rect x="80" y="250" width="180" height="50" fill="#f7f7f7" stroke="#333" stroke-width="3"/>
+  <text x="95" y="283" font-family="monospace" font-size="22" fill="#222">Browse Catalog</text>
+  <rect x="280" y="250" width="140" height="50" fill="#f7f7f7" stroke="#333" stroke-width="3"/>
+  <text x="295" y="283" font-family="monospace" font-size="22" fill="#222">My Cart</text>
+
+  <!-- Feature highlights -->
+  <rect x="60" y="360" width="1080" height="210" fill="#f7f7f7" stroke="#333" stroke-width="3"/>
+  <text x="80" y="395" font-family="monospace" font-size="24" fill="#222">Feature highlights:</text>
+  <text x="100" y="435" font-family="monospace" font-size="22" fill="#222">• Secure downloads</text>
+  <text x="100" y="475" font-family="monospace" font-size="22" fill="#222">• Stripe Checkout</text>
+  <text x="100" y="515" font-family="monospace" font-size="22" fill="#222">• Instant access to purchases</text>
+
+  <!-- Footer (hint only) -->
+  <text x="40" y="760" font-family="monospace" font-size="18" fill="#222">© Digital Downloads – footer</text>
+</svg>

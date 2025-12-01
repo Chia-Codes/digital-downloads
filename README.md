@@ -527,5 +527,3 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 
 
 >>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
-
-
