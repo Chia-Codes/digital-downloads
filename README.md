@@ -385,6 +385,20 @@ Manual testing covered:
 * **Symptoms:** Files written at runtime disappear between dyno restarts
 * **Workaround:** Ship only demo files in Git or move to object storage (S3) for production
 
+#### Issue #4: Catalog shows only one sample product on Heroku
+
+- **Symptoms:** Production catalog lists only `sample-track`; locally you see multiple products.
+- **Common causes:**
+  - Demo MP3s weren’t actually deployed because they weren’t committed under `django-digital-downloads/protected_media/products/` (blocked by `.gitignore`).
+  - Heroku database has only the seeded sample row; the ingest script wasn’t run to create additional `Product` + `DigitalAsset` records.
+  - `DigitalAsset.file_path` stored incorrectly — it must be **relative to** `protected_media/` (e.g., `products/foo.mp3`, not an absolute path or leading slash).
+  - Files uploaded at runtime vanished after a dyno restart (Heroku’s ephemeral filesystem).
+- **Fix / Workarounds tried but failed:**
+  1) Commit a few **small** demo MP3s under `django-digital-downloads/protected_media/products/` and push (ensure `.gitignore` has allow rules for `products/**`).
+  2) On Heroku, run migrations and then seed data (run your ingest script from the repo or create Products/Assets via Django Admin).
+  3) Verify each `Product` has `active=True` and prices set, and that every `DigitalAsset.file_path` is relative to `protected_media/`.
+  4) For production scale, move assets to object storage (e.g., S3) and store pointers in the DB; don’t rely on runtime uploads on Heroku.
+
 # Recently Fixed
 
 * Cart remove and update endpoints now support both JSON (AJAX) and normal link flows
@@ -514,6 +528,11 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 * [Black / isort / flake8](https://github.com/psf/black) — Code quality.
 * [Heroku](https://www.heroku.com/) — App hosting and deployment.
 * [MDN Web Docs](https://developer.mozilla.org/) — HTML/CSS/JS reference.
+* [Slack](https://slack.com/)
+* [Favicon](favicon.io)
+* [Gareth Mcgirr Projects](https://github.com/Gareth-McGirr)
+* [Code Institue Walk Throughs](https://learn.codeinstitute.net/)
+* [Mermaid](https://mermaid.live/)
 
 ---
 
@@ -522,8 +541,11 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
+
+
 <<<<<<< HEAD
+>>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
 =======
 
 
->>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
+>>>>>>> 460ca0e8759187375dad7e0b491419c2eea64d7b

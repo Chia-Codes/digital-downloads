@@ -169,16 +169,18 @@ All links navigated to the correct routes under the expected guard.
 **HTML – W3C Validator**
 
 * Pages pass W3C validator with no blocking errors. Minor warnings acceptable for vendor attributes.
+![HTML](docs/readme_images/html_validator.png)
 
 **CSS – W3C Jigsaw Validator**
 
 * No blocking errors in custom `style.css` (Bootstrap vendor CSS excluded from checks).
-
+![CSS](docs/readme_images/css_validator.png)
 ---
 
 ## Automated Tests Summary
 
 **Backend (pytest + pytest‑django)**
+![Pytest](docs/readme_images/pytest.png)
 
 * `cart/tests/test_utils.py`: session cart helpers (`get_cart`, `save_cart`).
 * `checkout/tests/test_webhook.py`: webhook verifies signature, marks order paid, grants `UserAsset`.
@@ -186,6 +188,7 @@ All links navigated to the correct routes under the expected guard.
 * `orders/tests/test_views.py`: purchases list filters by user; order detail permissions.
 
 **CI / Pre‑commit**
+![Pre commit](docs/readme_images/precommit.png)
 
 * `pre-commit` runs Black, isort, Flake8.
 * `pytest -q` for unit tests (see `pytest.ini`).
