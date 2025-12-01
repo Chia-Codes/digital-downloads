@@ -234,19 +234,19 @@ A protected page lists the purchased assets. Download links stream the file only
 
 * Home View
 
-![Home Wireframe](docs/wireframes/01_home.png)-------------------------------------------------------------------------------------------------------------
+![Home Wireframe](docs/wireframes/home.svg)
 
 * Catalog View
 
-![Catalog Wireframe](docs/wireframes/02_catalog.png)-------------------------------------------------------------------------------------------------------------
+![Catalog Wireframe](docs/wireframes/catalog.svg)
 
 * Cart View
 
-![Cart Wireframe](docs/wireframes/03_cart.png)-------------------------------------------------------------------------------------------------------------
+![Cart Wireframe](docs/wireframes/cart.svg)
 
 * Checkout/Purchases
 
-![Purchases Wireframe](docs/wireframes/04_purchases.png)-------------------------------------------------------------------------------------------------------------
+![Purchases Wireframe](docs/wireframes/purchases.svg)
 
 > Replace the image paths with your actual wireframes if you have them.
 
@@ -254,11 +254,11 @@ A protected page lists the purchased assets. Download links stream the file only
 
 ## Database Schema
 
-![ERD](docs/readme_images/erdiagram.png)-------------------------------------------------------------------------------------------------------------
+![ERD](docs/readme_images/erdgram.png)
 
 ## Submission Flow
 
-![System Flow](docs/readme_images/system_flow.png)-------------------------------------------------------------------------------------------------------------
+![System Flow](docs/readme_images/system_flow.png)
 
 Core models used by the app:
 
