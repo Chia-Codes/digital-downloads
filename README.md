@@ -234,19 +234,19 @@ A protected page lists the purchased assets. Download links stream the file only
 
 * Home View
 
-![Home Wireframe](docs/wireframes/01_home.png)-------------------------------------------------------------------------------------------------------------
+![Home Wireframe](docs/wireframes/home.svg)
 
 * Catalog View
 
-![Catalog Wireframe](docs/wireframes/02_catalog.png)-------------------------------------------------------------------------------------------------------------
+![Catalog Wireframe](docs/wireframes/catalog.svg)
 
 * Cart View
 
-![Cart Wireframe](docs/wireframes/03_cart.png)-------------------------------------------------------------------------------------------------------------
+![Cart Wireframe](docs/wireframes/cart.svg)
 
 * Checkout/Purchases
 
-![Purchases Wireframe](docs/wireframes/04_purchases.png)-------------------------------------------------------------------------------------------------------------
+![Purchases Wireframe](docs/wireframes/purchases.svg)
 
 > Replace the image paths with your actual wireframes if you have them.
 
@@ -254,11 +254,11 @@ A protected page lists the purchased assets. Download links stream the file only
 
 ## Database Schema
 
-![ERD](docs/readme_images/erdiagram.png)-------------------------------------------------------------------------------------------------------------
+![ERD](docs/readme_images/erdgram.png)
 
 ## Submission Flow
 
-![System Flow](docs/readme_images/system_flow.png)-------------------------------------------------------------------------------------------------------------
+![System Flow](docs/readme_images/system_flow.png)
 
 Core models used by the app:
 
@@ -541,11 +541,3 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
-
-
-<<<<<<< HEAD
->>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
-=======
-
-
->>>>>>> 460ca0e8759187375dad7e0b491419c2eea64d7b
