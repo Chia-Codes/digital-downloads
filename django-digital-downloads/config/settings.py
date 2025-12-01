@@ -40,12 +40,8 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    o.strip()
-    for o in os.getenv(
-        "CSRF_TRUSTED_ORIGINS",
-        "https://digital-downloads.herokuapp.com",
-    ).split(",")
-    if o.strip()
+    *[o.strip() for o in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if o.strip()],
+    "https://digital-downloads.herokuapp.com",
 ]
 
 # Application definition
@@ -113,11 +109,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+default_db_url = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+    "default": dj_database_url.parse(
+        default_db_url,
         conn_max_age=600,
-        # DO NOT set ssl_require here — it breaks SQLite
+        ssl_require=default_db_url.startswith("postgres://")
+        or default_db_url.startswith("postgresql://"),
     )
 }
 
