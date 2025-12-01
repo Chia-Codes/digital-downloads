@@ -541,11 +541,3 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
-
-
-<<<<<<< HEAD
->>>>>>> 7c06d03f0b016ddd1d3c0730316bf3872dd04ad1
-=======
-
-
->>>>>>> 460ca0e8759187375dad7e0b491419c2eea64d7b
