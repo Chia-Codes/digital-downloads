@@ -46,8 +46,3 @@ desktop.ini
 .mypy_cache/
 ruff_cache/
 .cache/
-
-# allow protected_media content inside the app folder for demo
-!django-digital-downloads/protected_media/.gitignore
-!django-digital-downloads/protected_media/products/**
-!django-digital-downloads/protected_media/samples/**
