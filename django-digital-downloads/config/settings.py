@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "orders",
     "core",
     "pages",
+    "reviews",
 ]
 
 MIDDLEWARE = [

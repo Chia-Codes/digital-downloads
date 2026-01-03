@@ -1,10 +1,7 @@
 {% extends "base.html" %}
-{% block title %}
-{{ product.title }} · {{ block.super}
-}{% endblock %}
+{% block title %}{{ product.title }} · {{ block.super }}{% endblock %}
 {% block content %}
 {% load currency %}
-<span>£{{ p.price_pennies|pennies }}</span>
 <h1 class="h3">{{ product.title }}</h1>
 <p class="text-muted">{{ product.description }}</p>
 <p>
@@ -27,5 +24,47 @@
     Add to cart
   </a>
 
-  {% endblock %}
 </div>
+
+<hr class="my-4">
+
+<h2 class="h5 mb-3">Reviews</h2>
+
+{% with reviews=product.reviews.all %}
+  {% if reviews %}
+    <div class="list-group mb-3" role="list" aria-label="Product reviews">
+      {% for r in reviews %}
+        <div class="list-group-item" role="listitem">
+          <div class="small text-muted">
+            {{ r.user.username }} • {{ r.created_at|date:"Y-m-d H:i" }}
+          </div>
+          <div>Rating: {{ r.rating }}/5</div>
+          {% if r.comment %}
+            <div>{{ r.comment }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No reviews yet.</p>
+  {% endif %}
+{% endwith %}
+
+
+{% if user.is_authenticated %}
+  <form method="post" action="{% url 'reviews:add' product.slug %}" class="border rounded p-3">
+    {% csrf_token %}
+    <div class="mb-2">
+      <label class="form-label" for="id_rating">Rating (1 - 5)</label>
+      <input id="id_rating" name="rating" type="number" min="1" max="5" value="5" class="form-control form-control-sm">
+    </div>
+    <div class="mb-2">
+      <label class="form-label" for="id_comment">Comment (optional)</label>
+      <textarea id="id_comment" name="comment" rows="3" class="form-control form-control-sm"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm">Submit review</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to leave a review.</p>
+{% endif %}
+{% endblock %}
