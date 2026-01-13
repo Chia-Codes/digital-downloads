@@ -4,7 +4,6 @@ import unicodedata
 from hashlib import sha256
 from pathlib import Path
 
-from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -15,21 +14,21 @@ def slugify(s: str) -> str:
 
 
 class Command(BaseCommand):
-    help = "Product + DigitalAsset MP3s protected_media/{products,samples}"
+    help = "Create Products and DigitalAssets from MP3 files " "under protected_media/."
 
     def handle(self, *args, **options):
-        Product = apps.get_model("catalog", "Product")
-        DigitalAsset = apps.get_model("orders", "DigitalAsset")
+        # Import models directly (app registry is ready in management commands)
+        from catalog.models import Product
+        from orders.models import DigitalAsset
 
         base = Path(settings.BASE_DIR) / "protected_media"
-        self.stdout.write(f"protected_media: {base} (exists={base.exists()})")
-
         created = 0
+
         for sub in ("products", "samples"):
             d = base / sub
-            self.stdout.write(f"scan: {d} (exists={d.exists()})")
             if not d.exists():
                 continue
+
             for mp3 in d.glob("*.mp3"):
                 data = mp3.read_bytes()
                 h = sha256(data).hexdigest()
@@ -48,7 +47,7 @@ class Command(BaseCommand):
 
                 DigitalAsset.objects.update_or_create(
                     product=p,
-                    file_path=f"{sub}/{mp3.name}",
+                    file_path=f"{sub}/{mp3.name}",  # protected_media/
                     defaults={
                         "file_name": mp3.name,
                         "sha256": h,
