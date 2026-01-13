@@ -1,9 +1,9 @@
-# django-digital-downloads/catalog/management/commands/ingest_demo_mp3s.py
 import re
 import unicodedata
 from hashlib import sha256
 from pathlib import Path
 
+from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -17,12 +17,12 @@ class Command(BaseCommand):
     help = "Create Products and DigitalAssets from MP3 files " "under protected_media/."
 
     def handle(self, *args, **options):
-        # Import models directly (app registry is ready in management commands)
-        from catalog.models import Product
-        from orders.models import DigitalAsset
+        # models via apps.get_model so this works even during migrations
+        Product = apps.get_model("catalog", "Product")
+        DigitalAsset = apps.get_model("orders", "DigitalAsset")
 
         base = Path(settings.BASE_DIR) / "protected_media"
-        created = 0
+        processed = 0
 
         for sub in ("products", "samples"):
             d = base / sub
@@ -47,13 +47,13 @@ class Command(BaseCommand):
 
                 DigitalAsset.objects.update_or_create(
                     product=p,
-                    file_path=f"{sub}/{mp3.name}",  # protected_media/
+                    file_path=f"{sub}/{mp3.name}",
                     defaults={
                         "file_name": mp3.name,
                         "sha256": h,
                         "size_bytes": len(data),
                     },
                 )
-                created += 1
+                processed += 1
 
-        self.stdout.write(self.style.SUCCESS(f"Processed {created} MP3(s)."))
+        self.stdout.write(self.style.SUCCESS(f"Processed {processed} MP3(s)."))
