@@ -24,12 +24,6 @@ staticfiles/
 db.sqlite3
 db.sqlite3-journal
 
-# ignore protected files *except* our small demo set
-protected_media/
-
-!protected_media/.gitignore
-!protected_media/samples/**
-
 # Coverage / testing
 .coverage
 htmlcov/
@@ -46,3 +40,13 @@ desktop.ini
 .mypy_cache/
 ruff_cache/
 .cache/
+
+# Ignore protected_media everywhere by default
+protected_media/
+**/protected_media/**
+
+# Keep the app-scoped demo assets in the repo
+!django-digital-downloads/protected_media/
+!django-digital-downloads/protected_media/**
+!django-digital-downloads/protected_media/products/**
+!django-digital-downloads/protected_media/samples/**
