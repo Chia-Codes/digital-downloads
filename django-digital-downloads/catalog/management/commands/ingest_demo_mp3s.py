@@ -3,9 +3,10 @@ import unicodedata
 from hashlib import sha256
 from pathlib import Path
 
-from django.apps import apps
+from catalog.models import Product
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from orders.models import DigitalAsset
 
 
 def slugify(s: str) -> str:
@@ -14,34 +15,13 @@ def slugify(s: str) -> str:
 
 
 class Command(BaseCommand):
-    help = "Ingest demo MP3s from protected_media/{products,samples}"
-    "into Products + DigitalAssets"
+    help = "Create/refresh demo Products"
+    "and DigitalAssets from protected_media/."
 
     def handle(self, *args, **options):
-        # Get models. If orders.DigitalAsset is not ready, exit.
-        try:
-            Product = apps.get_model("catalog", "Product")
-            DigitalAsset = apps.get_model("orders", "DigitalAsset")
-        except LookupError:
-            self.stdout.write(
-                self.style.WARNING(
-                    "[ingest_demo_mp3s] Models not ready"
-                    "(missing orders.DigitalAsset?). "
-                    "Run migrations first and redeploy."
-                )
-            )
-            return
-
         base = Path(settings.BASE_DIR) / "protected_media"
-        if not base.exists():
-            self.stdout.write(
-                self.style.WARNING(
-                    f"[ingest_demo_mp3s] {base} does not exist on this dyno."
-                )
-            )
-            return
+        count = 0
 
-        created = 0
         for sub in ("products", "samples"):
             d = base / sub
             if not d.exists():
@@ -72,8 +52,6 @@ class Command(BaseCommand):
                         "size_bytes": len(data),
                     },
                 )
-                created += 1
+                count += 1
 
-        self.stdout.write(
-            self.style.SUCCESS(f"[ingest_demo_mp3s] Processed {created} MP3(s).")
-        )
+        self.stdout.write(self.style.SUCCESS(f"Processed {count} MP3(s)."))
