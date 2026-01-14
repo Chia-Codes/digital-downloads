@@ -3,10 +3,9 @@ import unicodedata
 from hashlib import sha256
 from pathlib import Path
 
-from catalog.models import Product
+from django.apps import apps
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from orders.models import DigitalAsset
 
 
 def slugify(s: str) -> str:
@@ -15,12 +14,19 @@ def slugify(s: str) -> str:
 
 
 class Command(BaseCommand):
-    help = "Create/refresh demo Products"
-    "and DigitalAssets from protected_media/."
+    help = "Seed Products (and DigitalAssets if model exists)"
+    "from protected_media/{products,samples}"
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **kwargs):
+        Product = apps.get_model("catalog", "Product")
+        try:
+            DigitalAsset = apps.get_model("orders", "DigitalAsset")
+        except LookupError:
+            DigitalAsset = None  # still create Products; skip assets
+
         base = Path(settings.BASE_DIR) / "protected_media"
-        count = 0
+        created_products = 0
+        upserted_assets = 0
 
         for sub in ("products", "samples"):
             d = base / sub
@@ -42,16 +48,35 @@ class Command(BaseCommand):
                         "active": True,
                     },
                 )
+                created_products += int(_)
 
-                DigitalAsset.objects.update_or_create(
-                    product=p,
-                    file_path=f"{sub}/{mp3.name}",
-                    defaults={
-                        "file_name": mp3.name,
-                        "sha256": h,
-                        "size_bytes": len(data),
-                    },
+                if DigitalAsset is not None:
+                    DigitalAsset.objects.update_or_create(
+                        product=p,
+                        file_path=f"{sub}/{mp3.name}",
+                        defaults={
+                            "file_name": mp3.name,
+                            "sha256": h,
+                            "size_bytes": len(data),
+                        },
+                    )
+                    upserted_assets += 1
+
+        if DigitalAsset is None:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"[ingest_demo_mp3s] Created/ensured {created_products} "
+                    "products. "
+                    "Skipped DigitalAsset linking because "
+                    "orders.DigitalAsset model "
+                    "was not available on this deploy."
                 )
-                count += 1
-
-        self.stdout.write(self.style.SUCCESS(f"Processed {count} MP3(s)."))
+            )
+        else:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"[ingest_demo_mp3s] Created/ensured {created_products} "
+                    "products; "
+                    f"upserted {upserted_assets} DigitalAsset rows."
+                )
+            )
