@@ -1,10 +1,11 @@
 # Digital Downloads
 
-**Digital Downloads** is a full‑stack Django web app that sells downloadable audio files (e.g., MP3s). Users browse a simple catalog, add items to a session cart, checkout via **Stripe Checkout**, and receive secure, permission‑checked downloads after payment is confirmed by a Stripe **webhook**.
+**Digital Downloads** is a full‑stack Django web app that sells downloadable audio files (e.g., MP3s). Users browse a simple catalog, add items to a session cart, checkout via **Stripe Checkout**, and receive secure, permission‑checked downloads after payment is confirmed by a Stripe **webhook**. 
 
 **Why**: Sell downloadable audio safely with Stripe and permission-checked downloads.  
 **What**: Django 5 app with catalog → cart → Stripe Checkout → webhook → secure downloads.  
 **How**: Minor-unit prices (pennies), non-public storage (`protected_media/`), tests, Heroku deploy.
+
 ---
 
 The live link can be found here: [View the live project here](https://digital-downloads-7febd3d13d07.herokuapp.com/)
@@ -572,4 +573,5 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
+
 
