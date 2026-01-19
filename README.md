@@ -2,6 +2,9 @@
 
 **Digital Downloads** is a full‑stack Django web app that sells downloadable audio files (e.g., MP3s). Users browse a simple catalog, add items to a session cart, checkout via **Stripe Checkout**, and receive secure, permission‑checked downloads after payment is confirmed by a Stripe **webhook**.
 
+**Why**: Sell downloadable audio safely with Stripe and permission-checked downloads.  
+**What**: Django 5 app with catalog → cart → Stripe Checkout → webhook → secure downloads.  
+**How**: Minor-unit prices (pennies), non-public storage (`protected_media/`), tests, Heroku deploy.
 ---
 
 The live link can be found here: [View the live project here](https://digital-downloads-7febd3d13d07.herokuapp.com/)
@@ -49,7 +52,12 @@ The live link can be found here: [View the live project here](https://digital-do
 * [Testing](#testing)
 * [Deployment](#deployment)
 
-  * [Version]
+  * [Version-Control](#version-control)
+  * [Heroku-Deployment](#heroku-deployment)
+  * [Run-Locally](#run-locally)
+  * [Fork-Project](#fork-project)
+
+*[Credits](#credits)
 
 ## Project Structure
 
@@ -220,11 +228,33 @@ A protected page lists the purchased assets. Download links stream the file only
 
 ![Purchases](docs/readme_images/purchases.png)
 
+ **Note**: `protected_media/` is **not** served as static; downloads are streamed after permission checks.
+
+## The Strategy Plane
+
+### Site Goals
+- Let users quickly browse MP3 products, add to cart, and pay securely.
+- Ensure downloads are permission-checked and never exposed via `/static/`.
+- Keep the UI lightweight and mobile-first.
+
+### Agile Planning (1 week)
+- Tracked in GitHub Projects (Kanban).  
+  Board: https://github.com/users/Chia-Codes/projects  
+- MoSCoW prioritisation; MVP delivered first (cart → checkout → secure download).
+
+#### Epics
+1. **Base Setup** – project, apps, base templates, auth, static.
+2. **Catalog & Cart** – list/detail, add/update/remove, totals.
+3. **Checkout (Stripe)** – checkout session + webhook; order marked paid.
+4. **Secure Downloads** – grant `UserAsset`, download endpoint.
+5. **Deployment** – Heroku, Postgres, WhiteNoise.
+6. **Docs & Tests** – README, TESTING.md, smoke/unit tests.
+
 ### Features-Left-To-Implement
 
 * Optional audio preview player on product detail pages
 * Search/filter for catalog
-* Download count & rate limiting
+* Download count & review limiting
 * Receipt emails on purchase
 * Object storage (S3) backend for large files (production)
 
@@ -247,8 +277,6 @@ A protected page lists the purchased assets. Download links stream the file only
 * Checkout/Purchases
 
 ![Purchases Wireframe](docs/wireframes/purchases.svg)
-
-> Replace the image paths with your actual wireframes if you have them.
 
 ### Database-Design
 
@@ -405,6 +433,9 @@ Manual testing covered:
 * Checkout button disabled when cart is empty
 * Price rendering aligned to use pennies across cart/order templates
 
+**UF-4: Heroku catalog initially showed one “sample-track”**
+- Fixed by committing demo MP3s under `django-digital-downloads/protected_media/*` and running the ingest command on Heroku (see Deployment). Documented to avoid ephemeral filesystem pitfalls.
+
 ---
 
 ## Environment Variables
@@ -541,3 +572,4 @@ Most commonly, forks are used to either propose changes to someone else’s proj
 > * For large files in production, prefer object storage (e.g., S3) instead of committing to the repo. Keep only placeholders/samples in Git.
 > * Rotate all secrets if they are ever committed; Django secret key and Stripe keys should be considered compromised once public.
 > * When adding new static assets, always run `collectstatic` before deploying to production.
+
