@@ -1,90 +1,12 @@
 import mimetypes
 from pathlib import Path
 
-from catalog.models import Product
 from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, render
 
-from .forms import UserNoteForm
-from .models import Order, OrderItem, UserAsset, UserNote
-
-
-# User Notes Views
-@login_required
-def notes_list(request):
-    notes = (
-        UserNote.objects.filter(user=request.user)
-        .select_related("product")
-        .order_by("-updated_at")
-    )
-    return render(request, "orders/notes_list.html", {"notes": notes})
-
-
-# User Note Create Views
-@login_required
-def note_create(request, product_id):
-    # Only allow creating a note for a product the user owns
-    owns = UserAsset.objects.filter(user=request.user, product_id=product_id).exists()
-    if not owns:
-        messages.error(request, "You can only add notes for products you own.")
-        return redirect("orders:notes_list")
-
-    product = get_object_or_404(Product, id=product_id)
-
-    if request.method == "POST":
-        form = UserNoteForm(request.POST)
-        if form.is_valid():
-            note = form.save(commit=False)
-            note.user = request.user
-            note.product = product
-            note.save()
-            messages.success(request, "Note created.")
-            return redirect("orders:notes_list")
-    else:
-        form = UserNoteForm()
-
-    return render(
-        request,
-        "orders/note_form.html",
-        {"form": form, "product": product, "mode": "create"},
-    )
-
-
-# User Note Edit Views
-@login_required
-def note_edit(request, note_id):
-    note = get_object_or_404(UserNote, id=note_id, user=request.user)
-
-    if request.method == "POST":
-        form = UserNoteForm(request.POST, instance=note)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Note updated.")
-            return redirect("orders:notes_list")
-    else:
-        form = UserNoteForm(instance=note)
-
-    return render(
-        request,
-        "orders/note_form.html",
-        {"form": form, "product": note.product, "mode": "edit"},
-    )
-
-
-# User Note Delete Views
-@login_required
-def note_delete(request, note_id):
-    note = get_object_or_404(UserNote, id=note_id, user=request.user)
-
-    if request.method == "POST":
-        note.delete()
-        messages.success(request, "Note deleted.")
-        return redirect("orders:notes_list")
-
-    return render(request, "orders/note_confirm_delete.html", {"note": note})
+from .models import Order, OrderItem, UserAsset
 
 
 # Orders and Purchases Views
