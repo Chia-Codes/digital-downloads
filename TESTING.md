@@ -229,3 +229,35 @@ All prices use integer pennies. If custom filters are changed, ensure consistent
 * Cart remove now supports both JSON and non‑AJAX flows.
 * Checkout button disabled/guarded when cart is empty or user not authenticated.
 * Order detail page uses consistent currency formatting and avoids unsupported template filters.
+
+
+| ID | User Story / Feature | Steps | Expected | Actual | Pass |
+|----|----------------------|-------|----------|--------|------|
+| NAV-1 | Navigate site | Home → Catalog → Product → Cart | Pages load; links correct | As expected |
+| CART-1 | Add to cart | On product, set qty=1, click Add | Cart shows line qty=1 | As expected |
+| CART-2 | Update qty | Change qty to 2, submit | Line & subtotal update | As expected |
+| CART-3 | Remove line | Click Remove | Item removed, totals update | As expected |
+| AUTH-1 | Login required | Hit /orders/ while logged out | Redirect to /accounts/login/ | As expected |
+| CHK-1 | Start checkout | Cart not empty, click Checkout | Redirect to Stripe | As expected |
+| WH-1 | Webhook grants access | Complete Stripe test payment | Order marked paid, UserAsset created | As expected |
+| DL-1 | Secure download | Click download on owned asset | File streams (200) | As expected |
+| ERR-404 | 404 page | Visit /this-page-does-not-exist/ | Friendly 404 with Home link | As expected |
+| ERR-500 | 500 page (dev only) | Trigger test 500 route if present | Friendly 500 with Home link | As expected |
+
+### Accessibility Spot-Checks
+- Labels on inputs/buttons (qty, add, remove, checkout)  
+- Logical heading order; keyboard focus visible  
+- Contrast: no AA failures on Bootstrap defaults
+
+### Responsiveness
+- Tested 320px → desktop using DevTools  
+- No horizontal scrolling; tappable targets ≥44px
+
+### Lighthouse
+- Run per page (Home, Catalog, Cart, Purchases)  
+- Accessibility ~100; perf varies by network
+
+### Known/Unfixed
+- Ephemeral filesystem on Heroku (demo files only)  
+- Webhook retries if app sleeps  
+- Ensure pennies → `£X.YY` everywhere
