@@ -175,6 +175,10 @@ All links navigated to the correct routes under the expected guard.
 
 * No blocking errors in custom `style.css` (Bootstrap vendor CSS excluded from checks).
 ![CSS](docs/readme_images/css_validator.png)
+
+**JS - JSHint**
+* Clean (configured `browser:true` in `.jshintrc`). 4 Errors fixed, no errors shown and ran server
+![JS](docs/readme_images/js_jshint.png)
 ---
 
 ## Automated Tests Summary
