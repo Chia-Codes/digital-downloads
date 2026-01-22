@@ -38,7 +38,7 @@
 </table>
 <div class="card mt-4">
   <div class="card-body d-flex justify-content-between align-items-center">
-    <div>
+    <div aria-live="polite" aria-atomic="true">
       <div class="fw-semibold">Items: {{ items }}</div>
       <div class="text-muted">Subtotal: £{{ subtotal|pennies }}</div>
     </div>
