@@ -10,6 +10,7 @@
 <div class="input-group">
   <input
     id="qty"
+    name="qty"
     type="number"
     class="form-control"
     value="1"
@@ -20,6 +21,8 @@
     id="btnAddToCart"
     class="btn btn-primary"
     href="{% url 'cart:add' product.id %}"
+    aria-label="Add {{ product.title }} to cart"
+    data-product-id="{{ product.id }}"
   >
     Add to cart
   </a>

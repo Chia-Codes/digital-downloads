@@ -29,3 +29,6 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
     path("reviews/", include(("reviews.urls", "reviews"), namespace="reviews")),
 ]
+
+handler404 = "core.views.not_found_redirect"
+handler500 = "core.views.server_error_redirect"

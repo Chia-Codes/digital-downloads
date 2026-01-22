@@ -17,7 +17,7 @@
             id="qty-{{ line.id }}"
             name="qty"
             type="number"
-            class="form-control form-control-sm"
+            class="form-control form-control-sm js-qty"
             value="{{ line.qty }}"
             min="1"
             oninput="this.form.requestSubmit()"
@@ -26,7 +26,7 @@
       </td>
       <td class="text-end">£{{ line.unit_price|pennies }}</td>
       <td class="text-end">£{{ line.line_total|pennies }}</td>
-      <td class="text-end"><a class="btn btn-outline-danger btn-sm"
+      <td class="text-end"><a class="btn btn-outline-danger btn-sm js-remove"
          href="{% url 'cart:remove' line.id %}">
         Remove
       </a></td>
@@ -38,7 +38,7 @@
 </table>
 <div class="card mt-4">
   <div class="card-body d-flex justify-content-between align-items-center">
-    <div>
+    <div aria-live="polite" aria-atomic="true">
       <div class="fw-semibold">Items: {{ items }}</div>
       <div class="text-muted">Subtotal: £{{ subtotal|pennies }}</div>
     </div>
