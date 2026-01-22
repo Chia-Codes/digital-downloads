@@ -21,6 +21,8 @@
     id="btnAddToCart"
     class="btn btn-primary"
     href="{% url 'cart:add' product.id %}"
+    aria-label="Add {{ product.title }} to cart"
+    data-product-id="{{ product.id }}"
   >
     Add to cart
   </a>
